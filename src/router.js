@@ -1,5 +1,5 @@
 const Joi = require('@hapi/joi');
-const { registerHandler, verifyEmailHandler, loginHandler, forgotPasswordHandler, resetPasswordHandler, getAllUserHandler, getAllTokenHandler } = require('./handler');
+const { registerHandler, verifyEmailHandler, loginHandler } = require('./handler');
 
 const routes = [
   {
@@ -50,37 +50,6 @@ const routes = [
         },
       },
     },
-  },
-  {
-    method: 'POST',
-    path: '/forgot-password',
-    handler: forgotPasswordHandler,
-  },
-  {
-    method: 'POST',
-    path: '/reset-password',
-    handler: resetPasswordHandler,
-    options: {
-      validate: {
-        payload: Joi.object({
-          token: Joi.string().min(6).required(),
-          newPassword: Joi.string().min(6).required(),
-        }),
-        failAction: (request, h, err) => {
-          return h.response({ status: 'fail', message: err.details[0].message }).code(400).takeover();
-        },
-      },
-    },
-  },
-  {
-    method: 'GET',
-    path: '/',
-    handler: getAllUserHandler,
-  },
-  {
-    method: 'GET',
-    path: '/token',
-    handler: getAllTokenHandler,
   },
 ];
 
